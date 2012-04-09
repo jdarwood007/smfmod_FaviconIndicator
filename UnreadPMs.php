@@ -43,6 +43,8 @@ function uPMs_hook_load_theme()
 // Adds a hook to the general mod settings so we can manage the setting.
 function uPMs_hook_general_mod_settings($config_vars)
 {
+	global $txt;
+
 	$config_vars[] = array('int', 'unreadPMstimeout', 'postinput' => $txt['unreadPMstimeout_post']);
 }
 
