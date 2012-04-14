@@ -5,7 +5,11 @@ function uPMs_hook_actionArray($actionArray)
 {
 	global $modSettings;
 
-	$actionArray['unreadpms'] = array('UnreadPMs.php', 'UnreadPMsXML');
+	// We will save the original action for use later.
+	$modSettings['action_override_xmlhttp_uPMs'] = $actionArray['xmlhttp'];
+
+	// We will overload the xmlhttp action for our needs.
+	$actionArray['xmlhttp'] = array('UnreadPMs.php', 'UPMs_override_action_xmlhttp');
 }
 
 // Adds a hook to the end of loadTheme();
@@ -27,7 +31,7 @@ function uPMs_hook_load_theme()
 		{
 			window.setTimeout(\'funreadPMs();\', ' . $modSettings['unreadPMstimeout'] * 600 . ');
 
-			var oNewPms = getXMLDocument(smf_prepareScriptUrl(smf_scripturl) + \'action=unreadpms\');
+			var oNewPms = getXMLDocument(smf_prepareScriptUrl(smf_scripturl) + \'action=xmlhttp;sa=unreadpms\');
 
 			if (oNewPms.responseXML)
 			{
@@ -46,6 +50,19 @@ function uPMs_hook_general_mod_settings($config_vars)
 	global $txt;
 
 	$config_vars[] = array('int', 'unreadPMstimeout', 'postinput' => $txt['unreadPMstimeout_post']);
+}
+
+// Overrides the xmlhttp function.
+function UPMs_override_action_xmlhttp()
+{
+	global $modSettings, $sourcedir;
+
+	if (isset($_GET['sa']) && $_GET['sa'] == 'unreadpms')
+		UnreadPMsXML();
+
+	// Otherwise we will act just like index.php would have.
+	require_once($sourcedir . '/' . $modSettings['action_override_xmlhttp_uPMs'][0]);
+	return $modSettings['action_override_xmlhttp_uPMs'][1]();
 }
 
 // Provides the XML for our javascript to read.
