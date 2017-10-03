@@ -11,6 +11,8 @@
 		<move-file name="UnreadPMs.php" destination="$sourcedir/" />
 		<move-file name="tinycon.min.js" destination="$themedir/scripts/" />
 		<modification>language.xml</modification>
+		<modification>language.russian.xml</modification>
+		<modification>language.russian-utf8.xml</modification>
 	</install>
 
 	<uninstall for="SMF 2.0-2.0.99">
@@ -18,6 +20,8 @@
 		<remove-file name="$themedir/scripts/tinycon.min.js" />
 		<remove-file name="$sourcedir/UnreadPMs.php" />
 		<modification reverse="true">language.xml</modification>
+		<modification reverse="true">language.russian.xml</modification>
+		<modification reverse="true">language.russian-utf8.xml</modification>
 	</uninstall>
 
 </package-info>
