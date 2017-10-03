@@ -5,12 +5,12 @@
 	<id>sleepy:unreadpmfav</id>
 	<version>1.0</version>
 
-	<file name="$languagedir/Modifications.russian.php">
+	<file name="$languagedir/Modifications.russian.php" error="skip">
 		<operation>
 			<search position="end"/>
 			<add><![CDATA[// Unread PMs strings.
 $txt['unreadPMstimeout'] = 'Счетчик непрочитанных ЛС для фавикон';
-$txt['unreadPMstimeout_post'] = 'количество секунд между обновлениями (маленькое значение может повлиять на производительность форума)';]]></add>
+$txt['unreadPMstimeout_post'] = 'секунд между обновлениями (маленькое значение может повлиять на производительность форума)';]]></add>
 		</operation>
 	</file>
 </modification>
