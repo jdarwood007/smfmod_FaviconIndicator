@@ -1,7 +1,7 @@
 <?php
 
 // This adds a hook to our action=.
-function uPMs_hook_actionArray($actionArray)
+function uPMs_hook_actionArray(&$actionArray)
 {
 	global $modSettings;
 
@@ -45,7 +45,7 @@ function uPMs_hook_load_theme()
 
 
 // Adds a hook to the general mod settings so we can manage the setting.
-function uPMs_hook_general_mod_settings($config_vars)
+function uPMs_hook_general_mod_settings(&$config_vars)
 {
 	global $txt;
 

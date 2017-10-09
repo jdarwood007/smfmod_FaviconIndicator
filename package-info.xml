@@ -3,7 +3,7 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>sleepy:unreadpmfav</id>
 	<name>Unread PMs Favicon</name>
-	<version>1.0</version>
+	<version>1.0.2</version>
 	<type>modification</type>
 
 	<install for="SMF 2.0-2.0.99">
@@ -11,6 +11,9 @@
 		<move-file name="UnreadPMs.php" destination="$sourcedir/" />
 		<move-file name="tinycon.min.js" destination="$themedir/scripts/" />
 		<modification>language.xml</modification>
+		<modification>language.russian.xml</modification>
+		<modification>language.russian-utf8.xml</modification>
+		<redirect url="?action=admin;area=modsettings;" timeout="1000" />
 	</install>
 
 	<uninstall for="SMF 2.0-2.0.99">
@@ -18,6 +21,8 @@
 		<remove-file name="$themedir/scripts/tinycon.min.js" />
 		<remove-file name="$sourcedir/UnreadPMs.php" />
 		<modification reverse="true">language.xml</modification>
+		<modification reverse="true">language.russian.xml</modification>
+		<modification reverse="true">language.russian-utf8.xml</modification>
 	</uninstall>
 
 </package-info>
