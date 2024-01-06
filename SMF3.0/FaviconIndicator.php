@@ -1,13 +1,21 @@
 <?php
-
 /**
  * The main class for Favicon Indicator customization
  * @package AntiSpamLinks
  * @author SleePy https://sleepycode.com
- * @copyright 2022
+ * @copyright 2024
  * @license 3-Clause BSD https://opensource.org/licenses/BSD-3-Clause
  * @version 2.0
  */
+
+#namespace SMF\Mod\ErrorPopup;
+
+use SMF\Config;
+use SMF\Lang;
+use SMF\Theme;
+use SMF\User;
+use SMF\Utils;
+
 class FaviconIndicator
 {
 	/**
@@ -32,17 +40,15 @@ class FaviconIndicator
 	 */
 	public static function CheckNotifications(): void
 	{
-		global $user_info, $context;
-
 		header('Content-Type: text/xml; charset=UTF-8');
 
 		echo '<', '?xml version="1.0" encoding="UTF-8"?', '>
 	<smf>
-		<unreadpms>', $user_info['unread_messages'], '</unreadpms>
-		<alerts>', $user_info['alerts'], '</alerts>
+		<unreadpms>', User::$me->unread_messages, '</unreadpms>
+		<alerts>', User::$me->alerts, '</alerts>
 	</smf>';
 
-		obExit(false, false, false);
+		Utils::obExit(false, false, false);
 	}
 
 	/**
@@ -54,24 +60,22 @@ class FaviconIndicator
 	 */
 	public static function hook_load_theme(): void
 	{
-		global $context, $settings, $modSettings;
-
 		// Default the setting to 1 minute.
-		if (!isset($modSettings['faviconIndicatorTimeout'])) {
-			$modSettings['faviconIndicatorTimeout'] = 60;
-		} elseif (empty($modSettings['faviconIndicatorTimeout']) || $context['user']['is_guest']) {
+		if (!isset(Config::$modSettings['faviconIndicatorTimeout'])) {
+			Config::$modSettings['faviconIndicatorTimeout'] = 60;
+		} elseif (empty(Config::$modSettings['faviconIndicatorTimeout']) || User::$me->is_guest) {
 			return;
 		}
 
 		// Append the html headers.
-		loadJavaScriptFile('tinycon.min.js', [
+		Theme::loadJavaScriptFile('tinycon.min.js', [
 			'defer' => true,
 		]);
 
-		addInlineJavaScript('
+		Theme::addInlineJavaScript('
 	fFaviconNotification = function ()
 	{
-		window.setTimeout(\'fFaviconNotification();\', ' . ((int) $modSettings['faviconIndicatorTimeout']) * 600 . ');
+		window.setTimeout(\'fFaviconNotification();\', ' . ((int) Config::$modSettings['faviconIndicatorTimeout']) * 600 . ');
 
 		getXMLDocument(smf_prepareScriptUrl(smf_scripturl) + \'action=xmlhttp;sa=faviconnotify\', function(responseXML){
 			var unreadPMs = responseXML.getElementsByTagName(\'smf\')[0].getElementsByTagName(\'unreadpms\')[0].firstChild.nodeValue;
@@ -93,9 +97,7 @@ class FaviconIndicator
 	 */
 	public static function hook_general_mod_settings(array &$config_vars): void
 	{
-		global $txt;
-
-		loadLanguage('FaviconIndicator');
-		$config_vars[] = ['int', 'faviconIndicatorTimeout', 'postinput' => $txt['faviconIndicatorTimeout_post']];
+		Lang::load('FaviconIndicator');
+		$config_vars[] = ['int', 'faviconIndicatorTimeout', 'postinput' => Lang::$txt['faviconIndicatorTimeout_post']];
 	}
 }

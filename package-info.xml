@@ -2,8 +2,30 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>sleepy:unreadpmfav</id>
 	<name>Favicon Indictator</name>
-	<version>2.0</version>
+	<version>2.1</version>
 	<type>modification</type>
+
+	<install for="SMF 3.0 Alpha 1">
+		<readme>README.txt</readme>
+		<hook hook="integrate_general_mod_settings" function="FaviconIndicator::hook_general_mod_settings" file="$sourcedir/FaviconIndicator.php" />
+		<hook hook="integrate_XMLhttpMain_subActions" function="FaviconIndicator::hook_XMLhttpMain_subActions" file="$sourcedir/FaviconIndicator.php" />
+		<hook hook="integrate_load_theme" function="FaviconIndicator::hook_load_theme" file="$sourcedir/FaviconIndicator.php" />
+
+		<require-file name="Language/FaviconIndicator.english.php" destination="$themes_dir/default/languages" />
+		<require-file name="Language/FaviconIndicator.russian.php" destination="$themes_dir/default/languages" />
+		<require-file name="tinycon.min.js" destination="$themes_dir/default/scripts" />
+		<require-file name="SMF3.0/FaviconIndicator.php" destination="$sourcedir" />
+	</install>
+	
+	<uninstall for="SMF 3.0 Alpha 1">
+		<hook reverse="true" hook="integrate_general_mod_settings" function="FaviconIndicator::hook_general_mod_settings" file="$sourcedir/FaviconIndicator.php" />
+		<hook reverse="true" hook="integrate_XMLhttpMain_subActions" function="FaviconIndicator::hook_XMLhttpMain_subActions" file="$sourcedir/FaviconIndicator.php" />
+		<hook reverse="true" hook="integrate_load_theme" function="FaviconIndicator::hook_load_theme" file="$sourcedir/FaviconIndicator.php" />
+
+		<remove-file name="$themes_dir/default/languages/FaviconIndicator.english.php" />
+		<remove-file name="$themes_dir/default/scripts/tinycon.min.js" />
+		<remove-file name="$sourcedir/FaviconIndicator.php" />
+	</uninstall>
 
 	<install for="SMF 2.1.*">
 		<readme>README.txt</readme>
@@ -11,7 +33,8 @@
 		<hook hook="integrate_XMLhttpMain_subActions" function="FaviconIndicator::hook_XMLhttpMain_subActions" file="$sourcedir/FaviconIndicator.php" />
 		<hook hook="integrate_load_theme" function="FaviconIndicator::hook_load_theme" file="$sourcedir/FaviconIndicator.php" />
 
-		<require-file name="SMF2.1/language/FaviconIndicator.english.php" destination="$themes_dir/default/languages" />
+		<require-file name="Language/FaviconIndicator.english.php" destination="$themes_dir/default/languages" />
+		<require-file name="Language/FaviconIndicator.russian.php" destination="$themes_dir/default/languages" />
 		<require-file name="tinycon.min.js" destination="$themes_dir/default/scripts" />
 		<require-file name="SMF2.1/FaviconIndicator.php" destination="$sourcedir" />
 	</install>
@@ -40,4 +63,16 @@
 		<modification reverse="true">SMF2.0/language.xml</modification>
 	</uninstall>
 
+	<devtools>
+		<packagename>{CUSTOMIZATION-NAME}_{VERSION-}</packagename>
+		<exclusion>.git</exclusion>
+		<exclusion>.github</exclusion>
+		<exclusion>.gitignore</exclusion>
+		<exclusion>.scrutinizer.yml</exclusion>
+		<exclusion>.php-cs-fixer.php</exclusion>
+		<exclusion>screenshots</exclusion>
+		<exclusion>composer.json</exclusion>
+		<exclusion>composer.lock</exclusion>
+		<exclusion>vendor</exclusion>
+	</devtools>
 </package-info>

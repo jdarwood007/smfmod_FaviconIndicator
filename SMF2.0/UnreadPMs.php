@@ -9,7 +9,7 @@ function uPMs_hook_actionArray($actionArray)
 	$modSettings['action_override_xmlhttp_uPMs'] = $actionArray['xmlhttp'];
 
 	// We will overload the xmlhttp action for our needs.
-	$actionArray['xmlhttp'] = array('UnreadPMs.php', 'UPMs_override_action_xmlhttp');
+	$actionArray['xmlhttp'] = ['UnreadPMs.php', 'UPMs_override_action_xmlhttp'];
 }
 
 // Adds a hook to the end of loadTheme();
@@ -18,10 +18,11 @@ function uPMs_hook_load_theme()
 	global $context, $settings, $modSettings;
 
 	// Default the setting to 1 minute.
-	if (!isset($modSettings['unreadPMstimeout']))
+	if (!isset($modSettings['unreadPMstimeout'])) {
 		$modSettings['unreadPMstimeout'] = '60';
-	elseif (empty($modSettings['unreadPMstimeout']) || $context['user']['is_guest'])
+	} elseif (empty($modSettings['unreadPMstimeout']) || $context['user']['is_guest']) {
 		return;
+	}
 
 	// Append the html headers.
 	$context['html_headers'] .= '
@@ -49,7 +50,7 @@ function uPMs_hook_general_mod_settings($config_vars)
 {
 	global $txt;
 
-	$config_vars[] = array('int', 'unreadPMstimeout', 'postinput' => $txt['unreadPMstimeout_post']);
+	$config_vars[] = ['int', 'unreadPMstimeout', 'postinput' => $txt['unreadPMstimeout_post']];
 }
 
 // Overrides the xmlhttp function.
@@ -57,11 +58,13 @@ function UPMs_override_action_xmlhttp()
 {
 	global $modSettings, $sourcedir;
 
-	if (isset($_GET['sa']) && $_GET['sa'] == 'unreadpms')
+	if (isset($_GET['sa']) && $_GET['sa'] == 'unreadpms') {
 		UnreadPMsXML();
+	}
 
 	// Otherwise we will act just like index.php would have.
-	require_once($sourcedir . '/' . $modSettings['action_override_xmlhttp_uPMs'][0]);
+	require_once $sourcedir . '/' . $modSettings['action_override_xmlhttp_uPMs'][0];
+
 	return $modSettings['action_override_xmlhttp_uPMs'][1]();
 }
 
