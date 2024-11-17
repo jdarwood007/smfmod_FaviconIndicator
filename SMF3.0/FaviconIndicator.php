@@ -8,7 +8,7 @@
  * @version 2.0
  */
 
-#namespace SMF\Mod\ErrorPopup;
+#namespace SMF\Mod\FaviconIndicator;
 
 use SMF\Config;
 use SMF\Lang;
